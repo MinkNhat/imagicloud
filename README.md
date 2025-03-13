@@ -1,8 +1,8 @@
 
-node v22.14.0
-next js 14
-tailwindcss v3
-extension 'ES7+ React/Redux/React-Native snippets'
+node v22.14.0.
+next js 14.
+tailwindcss v3.
+extension 'ES7+ React/Redux/React-Native snippets'.
 
 ____________________________________________________________________________________________________________________________________
 
