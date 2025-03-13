@@ -1,16 +1,16 @@
 
-node v22.14.0.
-next js 14.
-tailwindcss v3.
-extension 'ES7+ React/Redux/React-Native snippets'.
+- node v22.14.0.
+- next js 14.
+- tailwindcss v3.
+- extension 'ES7+ React/Redux/React-Native snippets'.
 
 ____________________________________________________________________________________________________________________________________
-
 
 1. clone git repo
 2. cài node và npm nếu chưa có ( v22.14.0 )
 3. mở terminal, chạy npm install để cài thư viện 
-4. chạy project bằng npm run dev
+4. tạo file .env.local ở thư mục gốc ( ngang với app, package.json, ....)
+5. chạy project bằng 'npm run dev'
 
 ____________________________________________________________________________________________________________________________________
 
