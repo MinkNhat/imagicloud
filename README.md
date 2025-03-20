@@ -14,7 +14,8 @@ ________________________________________________________________________________
 
 ____________________________________________________________________________________________________________________________________
 
-Next js sử dụng serverless enviroment -> dễ mở rộng hơn -> tuy nhiên kh duy trì kết nối, phải tạo lại kết nối với mongodb mỗi lần request
+- Next js sử dụng serverless enviroment -> dễ mở rộng hơn -> tuy nhiên kh duy trì kết nối, phải tạo lại kết nối với mongodb mỗi lần request.
+- Để đồng bộ user ở db với user ở clerk, dùng webhooks -> tạo endpoints
 
 
 ____________________________________________________________________________________________________________________________________
