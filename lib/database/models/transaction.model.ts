@@ -13,9 +13,7 @@ const TransactionSchema= new Schema({
     amount: {
         type: Number,
         required: true,
-         
     },
-    
     plan: {
         type: String,
     },
@@ -27,5 +25,6 @@ const TransactionSchema= new Schema({
         ref: "User",
     },
 });
-const Transaction= models?.Transaction || model("Transaction", TransactionSchema);
+
+const Transaction = models?.Transaction || model("Transaction", TransactionSchema);
 export default Transaction;

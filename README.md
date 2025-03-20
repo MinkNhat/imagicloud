@@ -1,6 +1,6 @@
 
 - node v22.14.0.
-- next js 14.
+- next js 15.
 - tailwindcss v3.
 - extension 'ES7+ React/Redux/React-Native snippets'.
 
@@ -14,7 +14,10 @@ ________________________________________________________________________________
 
 ____________________________________________________________________________________________________________________________________
 
+Next js sử dụng serverless enviroment -> dễ mở rộng hơn -> tuy nhiên kh duy trì kết nối, phải tạo lại kết nối với mongodb mỗi lần request
 
+
+____________________________________________________________________________________________________________________________________
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
