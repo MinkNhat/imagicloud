@@ -2,6 +2,7 @@ import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
 // export default clerkMiddleware();
 
+// Những route public ( được truy cập mà kh cần xác thực )
 const isPublicRoute = createRouteMatcher([
   '/sign-in(.*)',
   '/sign-up(.*)',
@@ -9,6 +10,7 @@ const isPublicRoute = createRouteMatcher([
 ])
 
 export default clerkMiddleware(async (auth, request) => {
+  // check nếu không phải public route thì phải xác thực
   if (!isPublicRoute(request)) {
     await auth.protect()
   }
