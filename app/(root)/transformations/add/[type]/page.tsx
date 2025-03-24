@@ -2,7 +2,8 @@ import Header from '@/components/shared/Header'
 import { transformationTypes } from '@/constants'
 import React from 'react'
 
-const AddTransformationTypePage = ({params: {type}} : SearchParamProps) => {
+const AddTransformationTypePage = async ({ params }: SearchParamProps) => {
+  const { type } = await params;
   const transformation = transformationTypes[type];
 
   return (

@@ -95,7 +95,7 @@
   }
 
   .gradient-text {
-    @apply bg-purple-gradient bg-cover bg-clip-text text-transparent;
+    @apply bg-green-gradient bg-cover bg-clip-text text-transparent;
   }
 
   /* ===== ALIGNMENTS */
@@ -175,7 +175,7 @@
   }
 
   .dropdown-item {
-    @apply p-16-semibold text-dark-700 cursor-pointer transition-all px-4 py-3 rounded-none outline-none hover:border-none focus-visible:ring-transparent hover:text-white hover:bg-purple-gradient hover:bg-cover focus-visible:ring-offset-0 focus-visible:outline-none !important;
+    @apply p-16-semibold text-dark-700 cursor-pointer transition-all px-4 py-3 rounded-none outline-none hover:border-none focus-visible:ring-transparent hover:text-white hover:bg-green-gradient hover:bg-cover focus-visible:ring-offset-0 focus-visible:outline-none !important;
   }
 
   .input-field {
@@ -187,7 +187,7 @@
   }
 
   .submit-button {
-    @apply bg-purple-gradient bg-cover rounded-full py-4 px-6 p-16-semibold h-[50px] w-full md:h-[54px];
+    @apply bg-green-gradient bg-cover rounded-full py-4 px-6 p-16-semibold h-[50px] w-full md:h-[54px];
   }
 
   .select-field {
@@ -276,7 +276,7 @@
   }
 
   .collection-btn {
-    @apply button w-32 bg-purple-gradient bg-cover text-white;
+    @apply button w-32 bg-green-gradient bg-cover text-white;
   }
 
   .collection-card {
