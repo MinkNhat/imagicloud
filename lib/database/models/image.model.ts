@@ -5,7 +5,7 @@ export interface IImage extends Document {
     title: string; 
     transformationType: string; 
     publicId: string; 
-    secureUrl: string; 
+    secureURL: string; 
     width?: number; 
     height?: number; 
     config?: object; 
@@ -26,11 +26,11 @@ const ImageSchema= new Schema({
     title: {type: String, require : true},
     transformationType: {type: String, require : true}, // Loại transfor
     publicId: {type: String, require : true},
-    secureUrl: {type: URL, require : true},
+    secureURL: {type: String, require : true},
     width: {type: Number},
     height: {type: Number},
     config: {type: Object},
-    transformationUrl: {type: URL}, // url sau khi transfor
+    transformationUrl: {type: String}, // url sau khi transfor
     aspectRatio: {type: String}, // tỉ lệ ảnh
     color: {type: String},
     prompt: {type: String}, // lệnh để generate ảnh

@@ -6,6 +6,7 @@ import { NextResponse } from "next/server";
 import { Webhook } from "svix";
 
 import { createUser, deleteUser, updateUser } from "@/lib/actions/user.actions";
+import User from "@/lib/database/models/user.model";
 
 
 export async function POST(req: Request) {
@@ -74,9 +75,14 @@ export async function POST(req: Request) {
       photo: image_url,
     };
 
+    const existingUser = await User.findOne({ clerkId: id });
+
+    if (existingUser) {
+      return NextResponse.json({ message: "User already exists" });
+    }
+
     const newUser = await createUser(user);
     console.log("newUser: ", newUser);
-    
 
     // Set public metadata -> gộp id user từ db vào metadata của clerk
     if (newUser) {
