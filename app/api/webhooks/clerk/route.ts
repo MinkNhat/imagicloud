@@ -75,11 +75,11 @@ export async function POST(req: Request) {
       photo: image_url,
     };
 
-    const existingUser = await User.findOne({ clerkId: id });
+    // const existingUser = await User.findOne({ clerkId: id });
 
-    if (existingUser) {
-      return NextResponse.json({ message: "User already exists" });
-    }
+    // if (existingUser) {
+    //   return NextResponse.json({ message: "User already exists" });
+    // }
 
     const newUser = await createUser(user);
     console.log("newUser: ", newUser);

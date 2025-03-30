@@ -27,7 +27,7 @@ const TransformedImage = ({
                     onClick={downloadHandler}
                 >
                     <Image
-                        src="/images/download.svg"
+                        src="assets/icons/download.svg"
                         alt="Download"
                         width={24}
                         height={24}
@@ -63,7 +63,7 @@ const TransformedImage = ({
                 {isTransforming && (
                     <div className="transforming-loader">
                         <Image
-                            src="/assets/images/spinner.svg"
+                            src="/assets/icons/spinner.svg"
                             width={50}
                             height={50}
                             alt="Transforming..."

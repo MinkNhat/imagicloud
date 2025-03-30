@@ -53,7 +53,9 @@ export const InsufficientCreditsModal = () => {
             more credits.
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter>
+        
+        {/* footer / navigate button */}
+        <div className="mt-5 flex flex-col space-y-3">
           <AlertDialogCancel
             className="button w-full bg-purple-100 text-dark-400"
             onClick={() => router.push("/profile")}
@@ -61,12 +63,13 @@ export const InsufficientCreditsModal = () => {
             No, Cancel
           </AlertDialogCancel>
           <AlertDialogAction
-            className="button w-full bg-purple-gradient  bg-cover"
+            className="button w-full bg-purple-gradient bg-cover"
             onClick={() => router.push("/credits")}
           >
             Yes, Proceed
           </AlertDialogAction>
-        </AlertDialogFooter>
+        </div>
+
       </AlertDialogContent>
     </AlertDialog>
   );
