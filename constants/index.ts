@@ -1,8 +1,14 @@
+// navbar links -> url và label của các item trong navbar
 export const navLinks = [
     {
       label: "Home",
       route: "/",
       icon: "/assets/icons/home.svg",
+    },
+    {
+      label: "Edit Image",
+      route: "/transformations/add/edit",
+      icon: "/assets/icons/edit.svg", 
     },
     {
       label: "Image Restore",
@@ -41,6 +47,7 @@ export const navLinks = [
     },
   ];
   
+  // Các gói add-on 
   export const plans = [
     {
       _id: 1,
@@ -119,7 +126,21 @@ export const navLinks = [
     },
   ];
   
+  // các loại transform ( title, description, icon, config = flags để áp dụng vào CldImage)
   export const transformationTypes = {
+    edit: {
+      type: "edit",
+      title: "Edit Image",
+      subTitle: "Crop, rotate, or flip your image",
+      config: { 
+        edit: { 
+          crop: { x: 0, y: 0, width: 0, height: 0 },
+          rotate: 0,
+          flip: { horizontal: false, vertical: false }
+        } 
+      },
+      icon: "edit.svg",
+    },
     restore: {
       type: "restore",
       title: "Restore Image",
@@ -161,6 +182,7 @@ export const navLinks = [
     },
   };
   
+  // Các tỉ lệ để generate ảnh
   export const aspectRatioOptions = {
     "1:1": {
       aspectRatio: "1:1",
@@ -182,6 +204,7 @@ export const navLinks = [
     },
   };
   
+  // default value để gán nếu là create
   export const defaultValues = {
     title: "",
     aspectRatio: "",
@@ -190,4 +213,5 @@ export const navLinks = [
     publicId: "",
   };
   
+  // mức phí khi upload ảnh 
   export const creditFee = -1;

@@ -34,12 +34,14 @@ const MediaUploader = ({
 
     onValueChange(result?.info?.public_id)
 
-    toast({
-      title: 'Image uploaded successfully',
-      description: '1 credit was deducted from your account',
-      duration: 5000,
-      className: 'success-toast' 
-    })
+    if(type !== "edit") {
+      toast({
+        title: 'Image uploaded successfully',
+        description: '1 credit was deducted from your account',
+        duration: 5000,
+        className: 'success-toast' 
+      })
+    }
   }
 
   const onUploadErrorHandler = () => {

@@ -38,6 +38,7 @@ import { addImage, updateImage } from "@/lib/actions/image.actions"
 import { useRouter } from "next/navigation"
 import { set } from "mongoose"
 import { InsufficientCreditsModal } from "./InsufficientCreditsModel"
+import ImageEditor from "./ImageEditor"
 
 // Định nghĩa các schema cho form
 export const formSchema = z.object({
@@ -187,15 +188,20 @@ const TransformationForm = ({
 
   // update credits khi thực hiện transform
   const onTransformHandler = async () => {
-    setIsTransforming(true)
-
-    setTransformationConfig(deepMergeObjects(newTransformation, transformationConfig))
-
-    setNewTransformation(null)
-
-    startTransition(async () => {
-      await updateCredits(userId, creditFee);
-    })
+    if(type === "edit") {
+      // Trong trường hợp edit, chỉ cập nhật transformationConfig mà không trừ credits
+      setIsTransforming(true);
+    } else {
+      // Các loại transformation khác
+      setTransformationConfig(deepMergeObjects(newTransformation, transformationConfig));
+      setIsTransforming(true);
+      setNewTransformation(null);
+      
+      // Chỉ trừ credit cho các loại transform khác, không phải edit
+      startTransition(async () => {
+        await updateCredits(userId, creditFee);
+      });
+    }
   }
 
   useEffect(() => {
@@ -207,7 +213,7 @@ const TransformationForm = ({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        {creditBalance < Math.abs(creditFee) && <InsufficientCreditsModal/>}
+        {creditBalance < Math.abs(creditFee) && type !== "edit" && <InsufficientCreditsModal/>}
         {/* title image */}
         <CustomField
           control={form.control}
@@ -281,43 +287,92 @@ const TransformationForm = ({
           </div>
         )}
 
-        {/* MediaUploader từ Cloudinary cho phép upload ảnh */}
-        <div className="media-uploader-field">
-          <CustomField
-            control={form.control}
-            name="publicId"
-            className="flex size-full flex-col"
-            render={({ field }) => (
-              <MediaUploader
-                onValueChange={field.onChange}
-                setImage={setImage}
-                publicId={field.value}
-                image={image}
-                type={type}
+        {/* MediaUploader và chức năng edit image */}
+        {type === "edit" ? (
+          <div className="flex size-full">
+            {/* Chỉ hiển thị MediaUploader khi chưa có ảnh */}
+            {!image?.publicId ? (
+              <CustomField
+                control={form.control}
+                name="publicId"
+                className="flex size-full flex-col"
+                render={({ field }) => (
+                  <MediaUploader
+                    onValueChange={field.onChange}
+                    setImage={setImage}
+                    publicId={field.value}
+                    image={image}
+                    type={type}
+                  />
+                )}
               />
+            ) : (
+              <div className="flex size-full flex-col">
+                <h3 className="h3-bold text-dark-600 mb-4">
+                  Edit Image
+                </h3>
+                <ImageEditor
+                  image={image}
+                  onTransform={(config) => {
+                    setTransformationConfig(config);
+                    setIsTransforming(true);
+                    // Không trừ credit khi edit
+                  }}
+                  onSave={form.handleSubmit(onSubmit)}
+                  isTransforming={isTransforming}
+                />
+              </div>
             )}
-          />
+          </div>
+        ) : (
+          <div className="media-uploader-field">
+            <CustomField
+              control={form.control}
+              name="publicId"
+              className="flex size-full flex-col"
+              render={({ field }) => (
+                <MediaUploader
+                  onValueChange={field.onChange}
+                  setImage={setImage}
+                  publicId={field.value}
+                  image={image}
+                  type={type}
+                />
+              )}
+            />
 
-          <TransformedImage
-            image={image}
-            type={type}
-            title={form.getValues().title}
-            isTransforming={isTransforming}
-            setIsTransforming={setIsTransforming}
-            transformationConfig={transformationConfig}
-          />
-        </div>
+            <TransformedImage
+              image={image}
+              type={type}
+              title={form.getValues().title}
+              isTransforming={isTransforming}
+              setIsTransforming={setIsTransforming}
+              transformationConfig={transformationConfig}
+            />
+          </div>
+        )}
 
         <div className="flex flex-col gap-4">
-          {/* Button apply */}
-          <Button
-            type="button"
-            className="submit-button capitalize"
-            disabled={isTransforming || newTransformation === null}
-            onClick={onTransformHandler}
-          >
-            {isTransforming ? "Transforming..." : "Apply Transformation"}
-          </Button>
+          {/* Button apply transformation */}
+          {type === "edit" ? (
+            <Button
+              type="button"
+              className="submit-button capitalize"
+              disabled={isTransforming || !image?.publicId}
+              onClick={onTransformHandler}
+            >
+              {isTransforming ? "Applying Changes..." : "Apply Changes"}
+            </Button>
+          ) : (
+            <Button
+              type="button"
+              className="submit-button capitalize"
+              disabled={isTransforming || newTransformation === null}
+              onClick={onTransformHandler}
+            >
+              {isTransforming ? "Transforming..." : "Apply Transformation"}
+            </Button>
+          )}
 
           {/* Button submit */}
           <Button
@@ -325,7 +380,7 @@ const TransformationForm = ({
             className="submit-button capitalize"
             disabled={isSubmitting}
           >
-            {isSubmitting ? "Submitting..." : "Save Image"}
+            {isSubmitting ? "Saving..." : "Save Image"}
           </Button>
         </div>
       </form>

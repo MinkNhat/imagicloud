@@ -98,6 +98,10 @@
     @apply bg-green-gradient bg-cover bg-clip-text text-transparent;
   }
 
+  .edit-field {
+    @apply mt-5 w-full rounded-[16px] border-2 border-purple-200/20 bg-white p-5 shadow-lg shadow-purple-200/10 md:px-6 md:py-8;
+  }
+
   /* ===== ALIGNMENTS */
   .flex-center {
     @apply flex justify-center items-center;
@@ -260,6 +264,18 @@
 
   .transformation-original_image {
     @apply h-fit min-h-72 w-full rounded-[10px] border border-dashed bg-purple-100/20 object-cover p-2;
+  }
+
+  .image-editor-canvas {
+    @apply max-w-full h-auto border border-purple-200/50 rounded-lg shadow-sm;
+  }
+  
+  .image-editor-toolbar {
+    @apply flex flex-wrap gap-2 mt-4;
+  }
+  
+  .image-editor-button {
+    @apply p-14-medium flex items-center gap-2 rounded-md bg-purple-100 text-purple-800 hover:bg-purple-200 transition-colors px-3 py-2;
   }
 
   /* Collection Component */

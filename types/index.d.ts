@@ -54,6 +54,19 @@ declare type UpdateImageParams = {
 };
 
 declare type Transformations = {
+  edit?: {  // Thêm transformations cho chức năng edit
+    crop?: {
+      x: number;
+      y: number;
+      width: number;
+      height: number;
+    };
+    rotate?: number;
+    flip?: {
+      horizontal: boolean;
+      vertical: boolean;
+    };
+  };
   restore?: boolean;
   fillBackground?: boolean;
   remove?: {
@@ -87,6 +100,7 @@ declare type CreateTransactionParams = {
 };
 
 declare type TransformationTypeKey =
+  | "edit"
   | "restore"
   | "fill"
   | "remove"

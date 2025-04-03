@@ -22,7 +22,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider  afterSignOutUrl='/'>
+    <ClerkProvider  afterSignOutUrl='/'
+      appearance={{
+        layout: {
+          unsafe_disableDevelopmentModeWarnings: true,
+        },
+      }}
+    >
       <html lang="en">
         <body className={cn("font-IBMPlex antialiased", IBMPlex.variable)}>
           {children}
