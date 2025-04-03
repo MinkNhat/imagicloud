@@ -1,14 +1,13 @@
 import { Collection } from "@/components/shared/Collection";
 import { navLinks } from "@/constants"
 import { getAllImages } from "@/lib/actions/image.actions";
-import { Link } from "lucide-react"
+import Link from "next/link"
 import Image from "next/image";
 
 const Home = async ({ searchParams }: SearchParamProps) => {
-  const {page, searchQuery} = await searchParams;
-  page = searchParams.?Key;
-  const page = Number(searchParams?.page) || 1;
-  searchQuery = (searchParams?.query as string) || '';
+  const searchParamProps = await searchParams;
+  const page = Number(searchParamProps?.page) || 1;
+  const searchQuery = (searchParamProps?.query as string) || '';
 
   const images = await getAllImages({ page, searchQuery})
 
