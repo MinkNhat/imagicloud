@@ -10,9 +10,10 @@ type ImageEditorProps = {
   onTransform: (transformationConfig: any) => void;
   onSave: () => void;
   isTransforming: boolean;
+  transformationConfig?: Transformations | null;
 };
 
-const ImageEditor = ({ image, onTransform, onSave, isTransforming }: ImageEditorProps) => {
+const ImageEditor = ({ image, onTransform, onSave, isTransforming, transformationConfig }: ImageEditorProps) => {
   const { toast } = useToast();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [rotation, setRotation] = useState(0);
@@ -37,18 +38,41 @@ const ImageEditor = ({ image, onTransform, onSave, isTransforming }: ImageEditor
         canvas.width = img.width;
         canvas.height = img.height;
         
-        // Reset các tham số chỉnh sửa
-        setRotation(0);
-        setFlip({ horizontal: false, vertical: false });
-        setCropMode(false);
-        setCropArea({ x: 0, y: 0, width: img.width, height: img.height });
+        // Áp dụng các tham số từ transformationConfig nếu có
+        if (transformationConfig?.edit) {
+          if (transformationConfig.edit.rotate !== undefined) {
+            setRotation(transformationConfig.edit.rotate);
+          }
+          
+          if (transformationConfig.edit.flip) {
+            setFlip({
+              horizontal: transformationConfig.edit.flip.horizontal || false,
+              vertical: transformationConfig.edit.flip.vertical || false
+            });
+          }
+          
+          if (transformationConfig.edit.crop) {
+            setCropMode(true);
+            setCropArea(transformationConfig.edit.crop);
+          } else {
+            // Reset nếu không có thông tin crop
+            setCropMode(false);
+            setCropArea({ x: 0, y: 0, width: img.width, height: img.height });
+          }
+        } else {
+          // Reset các tham số nếu không có transformationConfig
+          setRotation(0);
+          setFlip({ horizontal: false, vertical: false });
+          setCropMode(false);
+          setCropArea({ x: 0, y: 0, width: img.width, height: img.height });
+        }
         
         // Vẽ ảnh lên canvas
         drawImageOnCanvas(img);
       }
     };
     img.src = image.secureURL;
-  }, [image?.secureURL]);
+  }, [image?.secureURL, transformationConfig]);
 
   // Vẽ ảnh lên canvas với các hiệu ứng hiện tại
   const drawImageOnCanvas = (img: HTMLImageElement) => {
@@ -165,7 +189,6 @@ const ImageEditor = ({ image, onTransform, onSave, isTransforming }: ImageEditor
       }
     };
     
-    // Gửi config lên component cha
     onTransform(transformationConfig);
 
     // toast({
@@ -176,8 +199,6 @@ const ImageEditor = ({ image, onTransform, onSave, isTransforming }: ImageEditor
     // });
   };
 
-  // Khi nhấn Apply Transformation trong TransformationForm, sẽ nhận được config từ đây
-  // và gửi lên Cloudinary để xử lý
   useEffect(() => {
     // Khi isTransforming được set, gửi cấu hình chỉnh sửa hiện tại
     if (isTransforming) {
@@ -186,8 +207,7 @@ const ImageEditor = ({ image, onTransform, onSave, isTransforming }: ImageEditor
   }, [isTransforming]);
 
   return (
-    <div className="flex flex-col gap-4">
-          
+    <div className="flex flex-col gap-4">            
       <div className="flex flex-wrap gap-2">
         <Button 
           type="button"
@@ -211,7 +231,7 @@ const ImageEditor = ({ image, onTransform, onSave, isTransforming }: ImageEditor
         
         <Button 
           type="button"
-          variant="outline" 
+          variant={flip.horizontal ? "default" : "outline"}
           size="sm"
           onClick={() => handleFlip('horizontal')}
           className="flex items-center gap-1"
@@ -221,7 +241,7 @@ const ImageEditor = ({ image, onTransform, onSave, isTransforming }: ImageEditor
         
         <Button 
           type="button"
-          variant="outline" 
+          variant={flip.vertical ? "default" : "outline"}
           size="sm"
           onClick={() => handleFlip('vertical')}
           className="flex items-center gap-1"
@@ -256,7 +276,7 @@ const ImageEditor = ({ image, onTransform, onSave, isTransforming }: ImageEditor
           style={{ cursor: cropMode ? 'crosshair' : 'default' }}
         />
       </div>
-      
+
     </div>
   );
 };

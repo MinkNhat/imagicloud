@@ -6,6 +6,39 @@ import { CldImage, getCldImageUrl } from "next-cloudinary";
 import { dataUrl, debounce, download, getImageSize } from "@/lib/utils";
 import { PlaceholderValue } from "next/dist/shared/lib/get-img-props";
 
+function convertTransformationConfig(type: string, transformationConfig?: Transformations | null) {
+  if (type !== 'edit' || !transformationConfig?.edit) {
+    return transformationConfig;
+  }
+
+  const { edit, ...otherTransformations } = transformationConfig;
+  const convertedConfig: any = { ...otherTransformations };
+
+  // Xử lý crop
+  if (edit.crop) {
+    convertedConfig.crop = {
+      type: 'crop',
+      width: Math.round(edit.crop.width),
+      height: Math.round(edit.crop.height),
+      x: Math.round(edit.crop.x),
+      y: Math.round(edit.crop.y)
+    };
+  }
+
+  // Xử lý angle (rotate và flip)
+  if (edit.rotate !== undefined && edit.flip) {
+    const rotateDirection = edit.flip.horizontal ? 'hflip' : (edit.flip.vertical ? 'vflip' : '');
+    if(rotateDirection !== '') 
+      convertedConfig.angle = `${rotateDirection}.${edit.rotate}`;
+    else 
+      convertedConfig.angle = `${edit.rotate}`;
+  } else if (edit.flip) {
+    convertedConfig.angle = edit.flip.horizontal ? 'hflip' : (edit.flip.vertical ? 'vflip' : '');
+  }
+  console.log("convertedConfig", convertedConfig);
+  return convertedConfig;
+}
+
 const TransformedImage = ({
   image,
   type,
@@ -15,6 +48,8 @@ const TransformedImage = ({
   setIsTransforming,
   hasDownload = false,
 }: TransformedImageProps) => {
+  console.log(image)
+  const transformations = convertTransformationConfig(type, transformationConfig);
 
   const downloadHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
@@ -26,7 +61,6 @@ const TransformedImage = ({
       ...transformationConfig
     }), title)
   };
-  
 
   return (
     <div className="flex flex-col gap-4">
@@ -67,8 +101,17 @@ const TransformedImage = ({
                     debounce(() => {
                         setIsTransforming && setIsTransforming(false);
                     }, 8000)()
-                  }}                  
-                  {...transformationConfig}
+                  }}               
+                  // angle="hflip.45"
+                  // crop={{
+                  //   type: 'crop',
+                  //   width: 400,    
+                  //   height: 840,   
+                  //   x: 350,       
+                  //   y: 815,         
+                  // }}
+                  
+                  {...transformations}
                 />
 
                 {isTransforming && (

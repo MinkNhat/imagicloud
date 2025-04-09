@@ -89,53 +89,14 @@ const TransformationForm = ({
     setIsSubmitting(true);
 
     if(data || image) {
-      // const transformationUrl = getCldImageUrl({
-      //   width: image?.width,
-      //   height: image?.height,
-      //   src: image?.publicId,
-      //   ...transformationConfig
-      // })
-      let transformationUrl;
-    
-    if (type === "edit") {
-      const transforms: string[] = [];
-      
-      // Thêm xoay nếu có
-      if (transformationConfig?.edit?.rotate) {
-        transforms.push(`a_${transformationConfig.edit.rotate}`);
-      }
-      
-      // Thêm lật ngang nếu có
-      if (transformationConfig?.edit?.flip?.horizontal) {
-        transforms.push("e_hflip");
-      }
-      
-      // Thêm lật dọc nếu có
-      if (transformationConfig?.edit?.flip?.vertical) {
-        transforms.push("e_vflip");
-      }
-      
-      // Thêm cắt ảnh nếu có
-      if (transformationConfig?.edit?.crop) {
-        transforms.push(`c_crop,x_${transformationConfig.edit.crop.x},y_${transformationConfig.edit.crop.y},w_${transformationConfig.edit.crop.width},h_${transformationConfig.edit.crop.height}`);
-      }
-
-      transformationUrl = getCldImageUrl({
-        width: image?.width,
-        height: image?.height,
-        src: image?.publicId,
-        transformations: transforms,
-      });
-    } else {
-      // Xử lý cho các type khác
-      transformationUrl = getCldImageUrl({
+      console.log("image", image);
+      const transformationUrl = getCldImageUrl({
         width: image?.width,
         height: image?.height,
         src: image?.publicId,
         ...transformationConfig
-      });
-    }
-
+      })
+      
       const imageData = {
         title: values.title,
         publicId: image?.publicId,
@@ -230,7 +191,6 @@ const TransformationForm = ({
   const onTransformHandler = async () => {
 
     setTransformationConfig(deepMergeObjects(newTransformation, transformationConfig));
-    console.log(transformationConfig);
     setIsTransforming(true);
     setNewTransformation(null);
 
@@ -238,7 +198,11 @@ const TransformationForm = ({
       startTransition(async () => {
         await updateCredits(userId, creditFee);
       });
-    } 
+    } else {
+      setTimeout(() => {
+        setIsTransforming(false);
+      }, 1500);
+    }
   }
 
   useEffect(() => {
@@ -359,10 +323,12 @@ const TransformationForm = ({
                   }}
                   onSave={form.handleSubmit(onSubmit)}
                   isTransforming={isTransforming}
+                  transformationConfig={transformationConfig}
                 />
               </div>
             )}
           </div>
+
         ) : (
           <div className="media-uploader-field">
             <CustomField
@@ -393,7 +359,7 @@ const TransformationForm = ({
 
         <div className="flex flex-col gap-4">
           {/* Button apply transformation */}
-          {type === "edit" ? (
+          {/* {type === "edit" ? (
             <Button
               type="button"
               className="submit-button capitalize"
@@ -411,7 +377,15 @@ const TransformationForm = ({
             >
               {isTransforming ? "Đang áp dụng..." : "Áp dụng"}
             </Button>
-          )}
+          )} */}
+          <Button
+              type="button"
+              className="submit-button capitalize"
+              disabled={isTransforming || newTransformation === null}
+              onClick={onTransformHandler}
+            >
+              {isTransforming ? "Đang áp dụng..." : "Áp dụng"}
+            </Button>
 
           {/* Button submit */}
           <Button

@@ -12,7 +12,7 @@ import { transformationTypes } from "@/constants";
 
 const ImageDetails = async ({ params }: SearchParamProps) => {
 
-  const { type, id }= await params;
+  const { id }= await params;
   const { userId } = await auth();
 
   const image = await getImageById(id);
