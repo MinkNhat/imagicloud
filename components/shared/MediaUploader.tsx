@@ -36,8 +36,8 @@ const MediaUploader = ({
 
     if(type !== "edit") {
       toast({
-        title: 'Image uploaded successfully',
-        description: '1 credit was deducted from your account',
+        title: 'Tải ảnh lên thành công',
+        description: 'Bạn đã sử dụng 1 credit!',
         duration: 5000,
         className: 'success-toast' 
       })
@@ -46,8 +46,8 @@ const MediaUploader = ({
 
   const onUploadErrorHandler = () => {
     toast({
-      title: 'Something went wrong while uploading',
-      description: 'Please try again',
+      title: 'Có lỗi xảy ra khi tải ảnh lên',
+      description: 'Vui lòng kiểm tra lại!',
       duration: 5000,
       className: 'error-toast' 
     })
@@ -66,7 +66,7 @@ const MediaUploader = ({
       {({ open }) => (
         <div className="flex flex-col gap-4">
           <h3 className="h3-bold text-dark-600">
-            Original
+            Ảnh gốc
           </h3>
 
           {publicId ? (
@@ -93,7 +93,7 @@ const MediaUploader = ({
                   height={24}
                 />
               </div>
-                <p className="p-14-medium">Click here to upload image</p>
+                <p className="p-14-medium">Tải ảnh lên</p>
             </div>
           )}
         </div>

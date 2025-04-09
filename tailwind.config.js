@@ -30,6 +30,13 @@ module.exports = {
           500: "#56fc64",
           600: "#20ff18",
         },
+        blue: {
+          100: "#E6F7FF",
+          200: "#91D5FF", 
+          400: "#69C0FF",
+          500: "#40A9FF",
+          600: "#1677FF",
+        },
         purple: {
           100: "#F4F7FE",
           200: "#BCB6FF",
@@ -77,7 +84,7 @@ module.exports = {
       },
       backgroundImage: {
         "purple-gradient": "url('/assets/images/gradient-bg.svg')",
-        "green-gradient": "url('/assets/images/gradient-bg.svg')",
+        "blue-gradient": "url('/assets/images/gradient-bg.svg')",
         banner: "url('/assets/images/banner-bg.png')",
       },
       borderRadius: {

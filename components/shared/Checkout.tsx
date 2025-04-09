@@ -67,7 +67,7 @@ const Checkout = ({
           role="link"
           className="w-full rounded-full bg-purple-gradient bg-cover"
         >
-          Buy Credit
+          Mua gói
         </Button>
       </section>
     </form>

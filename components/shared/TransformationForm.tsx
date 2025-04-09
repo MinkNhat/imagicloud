@@ -89,12 +89,52 @@ const TransformationForm = ({
     setIsSubmitting(true);
 
     if(data || image) {
-      const transformationUrl = getCldImageUrl({
+      // const transformationUrl = getCldImageUrl({
+      //   width: image?.width,
+      //   height: image?.height,
+      //   src: image?.publicId,
+      //   ...transformationConfig
+      // })
+      let transformationUrl;
+    
+    if (type === "edit") {
+      const transforms: string[] = [];
+      
+      // Thêm xoay nếu có
+      if (transformationConfig?.edit?.rotate) {
+        transforms.push(`a_${transformationConfig.edit.rotate}`);
+      }
+      
+      // Thêm lật ngang nếu có
+      if (transformationConfig?.edit?.flip?.horizontal) {
+        transforms.push("e_hflip");
+      }
+      
+      // Thêm lật dọc nếu có
+      if (transformationConfig?.edit?.flip?.vertical) {
+        transforms.push("e_vflip");
+      }
+      
+      // Thêm cắt ảnh nếu có
+      if (transformationConfig?.edit?.crop) {
+        transforms.push(`c_crop,x_${transformationConfig.edit.crop.x},y_${transformationConfig.edit.crop.y},w_${transformationConfig.edit.crop.width},h_${transformationConfig.edit.crop.height}`);
+      }
+
+      transformationUrl = getCldImageUrl({
+        width: image?.width,
+        height: image?.height,
+        src: image?.publicId,
+        transformations: transforms,
+      });
+    } else {
+      // Xử lý cho các type khác
+      transformationUrl = getCldImageUrl({
         width: image?.width,
         height: image?.height,
         src: image?.publicId,
         ...transformationConfig
-      })
+      });
+    }
 
       const imageData = {
         title: values.title,
@@ -188,24 +228,21 @@ const TransformationForm = ({
 
   // update credits khi thực hiện transform
   const onTransformHandler = async () => {
-    if(type === "edit") {
-      // Trong trường hợp edit, chỉ cập nhật transformationConfig mà không trừ credits
-      setIsTransforming(true);
-    } else {
-      // Các loại transformation khác
-      setTransformationConfig(deepMergeObjects(newTransformation, transformationConfig));
-      setIsTransforming(true);
-      setNewTransformation(null);
-      
-      // Chỉ trừ credit cho các loại transform khác, không phải edit
+
+    setTransformationConfig(deepMergeObjects(newTransformation, transformationConfig));
+    console.log(transformationConfig);
+    setIsTransforming(true);
+    setNewTransformation(null);
+
+    if(type !== "edit") {
       startTransition(async () => {
         await updateCredits(userId, creditFee);
       });
-    }
+    } 
   }
 
   useEffect(() => {
-    if(image && (type === 'restore' || type === 'removeBackground')) {
+    if(image && (type === 'restore' || type === 'removeBackground' || type === 'edit')) {
       setNewTransformation(transformationType.config)
     }
   }, [image, transformationType.config, type]);
@@ -218,7 +255,7 @@ const TransformationForm = ({
         <CustomField
           control={form.control}
           name="title"
-          formLabel="Image Title"
+          formLabel="Đặt tên ảnh"
           className="w-full"
           render={({ field }) => <Input {...field} className="input-field" />}
         />
@@ -228,14 +265,14 @@ const TransformationForm = ({
           <CustomField
             control={form.control}
             name="aspectRatio"
-            formLabel="Aspect Ratio"
+            formLabel="Tỉ lệ khung ảnh"
             className="w-full"
             render={({ field }) => (
               <Select onValueChange={(value) => onSelectFieldHandler(value, field.onChange)}
                 value={field.value}
               >
                 <SelectTrigger className="select-field">
-                  <SelectValue placeholder="Select size" />
+                  <SelectValue placeholder="Chọn tỉ lệ" />
                 </SelectTrigger>
                 <SelectContent>
                   {Object.keys(aspectRatioOptions).map((key) => (
@@ -255,7 +292,7 @@ const TransformationForm = ({
             <CustomField
               control={form.control}
               name="prompt"
-              formLabel={type === "remove" ? "Object to remove" : "Object to recolor"}
+              formLabel={type === "remove" ? "Vật thể muốn xoá" : "Vật thể muốn đổi màu"}
               className="w-full"
               render={({ field }) => (
                 <Input
@@ -273,7 +310,7 @@ const TransformationForm = ({
               <CustomField
                 control={form.control}
                 name="color"
-                formLabel="Replacement Color"
+                formLabel="Màu sắc mong muốn"
                 className="w-full"
                 render={({ field }) => (
                   <Input
@@ -311,7 +348,7 @@ const TransformationForm = ({
             ) : (
               <div className="flex size-full flex-col">
                 <h3 className="h3-bold text-dark-600 mb-4">
-                  Edit Image
+                  {/* Edit Image */}
                 </h3>
                 <ImageEditor
                   image={image}
@@ -363,7 +400,7 @@ const TransformationForm = ({
               disabled={isTransforming || !image?.publicId}
               onClick={onTransformHandler}
             >
-              {isTransforming ? "Applying Changes..." : "Apply Changes"}
+              {isTransforming ? "Đang áp dụng..." : "Áp dụng"}
             </Button>
           ) : (
             <Button
@@ -372,7 +409,7 @@ const TransformationForm = ({
               disabled={isTransforming || newTransformation === null}
               onClick={onTransformHandler}
             >
-              {isTransforming ? "Transforming..." : "Apply Transformation"}
+              {isTransforming ? "Đang áp dụng..." : "Áp dụng"}
             </Button>
           )}
 
@@ -382,7 +419,7 @@ const TransformationForm = ({
             className="submit-button capitalize"
             disabled={isSubmitting}
           >
-            {isSubmitting ? "Saving..." : "Save Image"}
+            {isSubmitting ? "Đang lưu ảnh..." : "Lưu ảnh"}
           </Button>
         </div>
       </form>

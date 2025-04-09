@@ -168,12 +168,12 @@ const ImageEditor = ({ image, onTransform, onSave, isTransforming }: ImageEditor
     // Gửi config lên component cha
     onTransform(transformationConfig);
 
-    toast({
-      title: 'Transformation applied',
-      description: 'Your changes have been applied to the image',
-      duration: 3000,
-      className: 'success-toast'
-    });
+    // toast({
+    //   title: 'Transformation applied',
+    //   description: 'Your changes have been applied to the image',
+    //   duration: 3000,
+    //   className: 'success-toast'
+    // });
   };
 
   // Khi nhấn Apply Transformation trong TransformationForm, sẽ nhận được config từ đây
@@ -187,18 +187,7 @@ const ImageEditor = ({ image, onTransform, onSave, isTransforming }: ImageEditor
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="relative border border-gray-300 rounded-lg overflow-hidden">
-        <canvas
-          ref={canvasRef}
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-          onMouseLeave={handleMouseUp}
-          className="max-w-full h-auto"
-          style={{ cursor: cropMode ? 'crosshair' : 'default' }}
-        />
-      </div>
-      
+          
       <div className="flex flex-wrap gap-2">
         <Button 
           type="button"
@@ -255,6 +244,19 @@ const ImageEditor = ({ image, onTransform, onSave, isTransforming }: ImageEditor
           <CropIcon size={16} /> {cropMode ? 'Đang cắt ảnh' : 'Cắt ảnh'}
         </Button>
       </div>
+
+      <div className="relative border border-gray-300 rounded-lg overflow-hidden">
+        <canvas
+          ref={canvasRef}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseUp}
+          className="max-w-full h-auto"
+          style={{ cursor: cropMode ? 'crosshair' : 'default' }}
+        />
+      </div>
+      
     </div>
   );
 };

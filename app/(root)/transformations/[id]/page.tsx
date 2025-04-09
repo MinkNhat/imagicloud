@@ -21,29 +21,29 @@ const ImageDetails = async ({ params }: SearchParamProps) => {
     <>
       <Header title={image.title} />
 
-      <section className="mt-5 flex flex-wrap gap-4">
+      <section className="mt-5 flex flex-col gap-4">
         <div className="p-14-medium md:p-16-medium flex gap-2">
-          <p className="text-dark-600">Transformation:</p>
+          <p className="text-dark-600">Loại chỉnh sửa:</p>
           <p className="capitalize text-purple-400">{image.transformationType}</p>
         </div>
 
         {image.prompt && (
           <div className="p-14-medium md:p-16-medium flex gap-2">
-            <p className="text-dark-600">Prompt:</p>
+            <p className="text-dark-600">Vật thể:</p>
             <p className="capitalize text-purple-400">{image.prompt}</p>
           </div>
         )}
 
         {image.color && (
           <div className="p-14-medium md:p-16-medium flex gap-2">
-            <p className="text-dark-600">Color:</p>
+            <p className="text-dark-600">Màu sắc:</p>
             <p className="capitalize text-purple-400">{image.color}</p>
           </div>
         )}
 
         {image.aspectRatio && (
           <div className="p-14-medium md:p-16-medium flex gap-2">
-            <p className="text-dark-600">Aspect Ratio:</p>
+            <p className="text-dark-600">Tỉ lệ:</p>
             <p className="capitalize text-purple-400">{image.aspectRatio}</p>
           </div>
         )}
@@ -52,7 +52,7 @@ const ImageDetails = async ({ params }: SearchParamProps) => {
       <section className="mt-10 border-t border-dark-400/15">
         <div className="transformation-grid">
           <div className="flex flex-col gap-4">
-            <h3 className="h3-bold text-dark-600">Original</h3>
+            <h3 className="h3-bold text-dark-600">Ảnh gốc</h3>
             <Image
               width={getImageSize(image.transformationType, image, "width")}
               height={getImageSize(image.transformationType, image, "height")}
@@ -75,7 +75,7 @@ const ImageDetails = async ({ params }: SearchParamProps) => {
         {userId === image.author.clerkId && (
           <div className="mt-4 space-y-4">
             <Button asChild type="button" className="submit-button capitalize">
-              <Link href={`/transformations/${image._id}/update`}>Update Image</Link>
+              <Link href={`/transformations/${image._id}/update`}>Chỉnh sửa ảnh</Link>
             </Button>
             <DeleteConfirmation imageId={image._id} />
           </div>

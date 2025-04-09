@@ -26,12 +26,12 @@ const TransformedImage = ({
       ...transformationConfig
     }), title)
   };
-  // console.log("transformationConfig:", JSON.stringify(transformationConfig, null, 2));
+  
 
   return (
     <div className="flex flex-col gap-4">
         <div className="flex-between">
-            <h3 className="h3-bold text-dark-600">Transformed</h3>
+            <h3 className="h3-bold text-dark-600">Ảnh sau chỉnh sửa</h3>
 
             {hasDownload && (
                 <button
@@ -39,7 +39,7 @@ const TransformedImage = ({
                     onClick={downloadHandler}
                 >
                     <Image
-                        src="assets/icons/download.svg"
+                        src="/assets/icons/download.svg"
                         alt="Download"
                         width={24}
                         height={24}
@@ -60,7 +60,6 @@ const TransformedImage = ({
                   placeholder={dataUrl as PlaceholderValue}
                   className="transformed-image"
                   format="jpg" 
-                  crop="pad"
                   onLoad={() => {
                     setIsTransforming && setIsTransforming(false);
                   }}
@@ -80,14 +79,14 @@ const TransformedImage = ({
                             height={50}
                             alt="spinner"
                         />
-                        <p className="text-white/80">Please wait...</p>
+                        <p className="text-white/80">Loading...</p>
                     </div>
                 )}
 
             </div>
         ) : (
             <div className="transformed-placeholder">
-                Transformed Image
+                Ảnh sau khi chỉnh sửa
             </div>
         )}
     </div>

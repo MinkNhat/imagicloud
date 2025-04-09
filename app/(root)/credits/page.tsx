@@ -21,7 +21,7 @@ const Credits = async () => {
     <>
       <Header
         title="Buy Credits"
-        subtitle="Choose a credit package that suits your needs!"
+        subtitle="Nâng tầm trải nghiệm với gói Pro và Premium!"
       />
 
       <section>
@@ -59,7 +59,7 @@ const Credits = async () => {
 
               {plan.name === "Free" ? (
                 <Button variant="outline" className="credits-btn">
-                  Free Consumable
+                  Gói miễn phí
                 </Button>
               ) : (
                 <SignedIn>

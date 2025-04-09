@@ -28,22 +28,22 @@ export const DeleteConfirmation = ({ imageId }: { imageId: string }) => {
           className="button h-[44px] w-full md:h-[54px]"
           variant="destructive"
         >
-          Delete Image
+          Xoá ảnh
         </Button>
       </AlertDialogTrigger>
 
       <AlertDialogContent className="flex flex-col gap-10">
         <AlertDialogHeader>
           <AlertDialogTitle>
-            Are you sure you want to delete this image?
+            Bạn có chắc chắn muốn xoá ảnh?
           </AlertDialogTitle>
           <AlertDialogDescription className="p-16-regular">
-            This will permanently delete this image
+            Điều này sẽ không thể hoàn tác, hãy cân nhắc trước khi thực hiện
           </AlertDialogDescription>
         </AlertDialogHeader>
 
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel>Huỷ</AlertDialogCancel>
           <AlertDialogAction
             className="border bg-red-500 text-white hover:bg-red-600"
             onClick={() =>
@@ -52,7 +52,7 @@ export const DeleteConfirmation = ({ imageId }: { imageId: string }) => {
               })
             }
           >
-            {isPending ? "Deleting..." : "Delete"}
+            {isPending ? "Đang xoá..." : "Xoá"}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
