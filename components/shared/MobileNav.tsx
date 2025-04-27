@@ -37,7 +37,7 @@ const MobileNav = () => {
                     </SheetTrigger>
                     <SheetContent className="sheet-content sm:w-64">
                         {/* Thêm SheetTitle để fix lỗi */}
-                        <SheetTitle>Navigation Menu</SheetTitle> 
+                        {/* <SheetTitle>Navigation Menu</SheetTitle>  */}
                         
                         <Image 
                             src="/assets/images/logo-text.png"

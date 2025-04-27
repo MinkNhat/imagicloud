@@ -3,6 +3,7 @@ import { navLinks } from "@/constants"
 import { getAllImages } from "@/lib/actions/image.actions";
 import Link from "next/link"
 import Image from "next/image";
+import Carousel from "@/components/shared/Carousel";
 
 const Home = async ({ searchParams }: SearchParamProps) => {
   const searchParamProps = await searchParams;
@@ -10,10 +11,11 @@ const Home = async ({ searchParams }: SearchParamProps) => {
   const searchQuery = (searchParamProps?.query as string) || '';
 
   const images = await getAllImages({ page, searchQuery})
-
   return (
     <>
-      <section className="home">
+      <Carousel />
+
+      {/* <section className="home">
         <h1 className="home-heading">
           Unleash Your Creative Vision with Imaginify
         </h1>
@@ -31,20 +33,16 @@ const Home = async ({ searchParams }: SearchParamProps) => {
             </Link>
           ))}
         </ul>
-      </section>
+      </section> */}
 
-      <section className="sm:mt-12">
-        {images?.data && (
-          <div>
-            <Collection
-              hasSearch={true}
-              images={images.data}
-              totalPages={images.totalPage}
-              page={page}
-            />
-          </div>
-        )}
-      </section>
+      {/* <section className="sm:mt-12">
+        <Collection 
+          hasSearch={true}
+          images={images?.data}
+          totalPages={images?.totalPage}
+          page={page}
+        />
+      </section> */}
     </>
   )
 }
