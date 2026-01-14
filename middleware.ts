@@ -4,6 +4,7 @@ import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
 // Những route public ( được truy cập mà kh cần xác thực )
 const isPublicRoute = createRouteMatcher([
+  '/', 
   '/sign-in(.*)',
   '/sign-up(.*)',
   '/api/webhooks(.*)' 

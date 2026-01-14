@@ -73,9 +73,67 @@ const MobileNav = () => {
             </SignedIn>
 
             <SignedOut>
-                <Button asChild className="button bg-blue-gradient bg-cover">
-                    <Link href="/sign-in">Login</Link>
-                </Button>
+                <Sheet>
+                    <SheetTrigger>
+                        <Image 
+                            src="/assets/icons/menu.svg"
+                            alt="menu"
+                            width={32}
+                            height={32}
+                            className="cursor-pointer"
+                        />
+                    </SheetTrigger>
+                    <SheetContent className="sheet-content sm:w-64">
+                        <Image 
+                            src="/assets/images/logo-text.png"
+                            alt="logo"
+                            width={152}
+                            height={23}
+                        />
+
+                        <ul className="header-nav_elements">
+                        {navLinks.map((link) => {
+                            const isActive = link.route === pathname;
+                            const isHome = link.route === '/';
+
+                            return (
+                                <li 
+                                    className={`${isActive ? 'gradient-text' : ''} p-18 flex whitespace-nowrap text-dark-700`}
+                                    key={link.route}
+                                >
+                                    {isHome ? (
+                                        <Link className="sidebar-link cursor-pointer" href={link.route}>
+                                            <Image 
+                                                src={link.icon}
+                                                alt={link.label}
+                                                width={24}
+                                                height={24}
+                                            />
+                                            {link.label}
+                                        </Link>
+                                    ) : (
+                                        <Link className="sidebar-link cursor-pointer" href="/sign-in">
+                                            <Image 
+                                                src={link.icon}
+                                                alt={link.label}
+                                                width={24}
+                                                height={24}
+                                            />
+                                            {link.label}
+                                        </Link>
+                                    )}
+                                </li>
+                            );
+                        })}
+                        </ul>
+
+                        <div className="flex justify-center w-full mt-4">
+                            <Button asChild className="button bg-blue-gradient bg-cover px-8">
+                                <Link href="/sign-in">Login</Link>
+                            </Button>
+                        </div>
+                    </SheetContent>
+                </Sheet>
             </SignedOut>
         </nav>
     </header>
@@ -83,3 +141,4 @@ const MobileNav = () => {
 };
 
 export default MobileNav;
+
