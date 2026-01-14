@@ -85,7 +85,7 @@ const Carousel = () => {
         >
           {services.map((service) => (
             <div key={service.id} className="w-full flex-shrink-0">
-              <div className="flex flex-col items-center p-6 bg-white rounded-lg shadow-md h-full">
+              <div className="flex flex-col items-center p-6 bg-white rounded-lg h-full">
                 <h2 className="text-2xl font-semibold mb-2 text-gray-800">{service.title}</h2>
                 <p className="text-center text-gray-600 mb-6">{service.subtitle}</p>
                 
